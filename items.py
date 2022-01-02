@@ -1,0 +1,73 @@
+class Item(object):
+    def __init__(self, label: str, price: float = 1.99):
+        self.label = label
+        self.price = price
+
+
+fruits = [
+    Item('apple', 1.29),
+    Item('apricot', 0.99),
+    Item('avocado', 2.59),
+    Item('bananas', 1.99),
+    Item('blackberries', 4.99),
+    Item('blueberries', 4.59),
+    Item('boysenberries', 4.99),
+    Item('cherries', 3.99),
+    Item('coconut', 6.99),
+    Item('figs', 3.79),
+    Item('grapes', 3.29),
+    Item('grapefruit', 2.09),
+    Item('kiwifruit', 1.99),
+    Item('lemon', 0.99),
+    Item('lime', 0.99),
+    Item('mandarin', 0.79),
+    Item('mango', 1.29),
+    Item('melon', 2.99),
+    Item('nectarine', 0.99),
+    Item('orange', 0.89),
+    Item('papaya', 1.49),
+    Item('passion fruit', 2.19),
+    Item('peach', 0.89),
+    Item('pear', 0.79),
+    Item('pineapple', 3.99),
+    Item('plum', 1.09),
+    Item('pomegranate', 1.09),
+    Item('raspberries', 2.99),
+    Item('strawberries', 3.99),
+    Item('watermelon', 6.99),
+]
+
+vegetables = [
+    Item('artichokes', 1.99),
+    Item('asparagus', 1.99),
+    Item('beet', 0.79),
+    Item('beetroot', 0.99),
+    Item('bell pepper', 0.99),
+    Item('broccoli', 1.69),
+    Item('Brussels sprouts', 1.49),
+    Item('cabbage', 1.19),
+    Item('carrots', 2.69),
+    Item('cauliflower', 2.39),
+    Item('celery', 1.89),
+    Item('corn', 0.99),
+    Item('cucumber', 0.89),
+    Item('eggplant', 1.29),
+    Item('green beans', 1.79),
+    Item('green onion', 0.89),
+    Item('leeks', 1.99),
+    Item('lettuce', 1.69),
+    Item('mushrooms', 2.19),
+    Item('onion', 0.89),
+    Item('peas', 1.99),
+    Item('pepper', 0.79),
+    Item('potato', 0.69),
+    Item('pumpkin', 8.99),
+    Item('radish', 1.39),
+    Item('spring onion', 0.79),
+    Item('squash', 1.89),
+    Item('sweet potato', 1.29),
+    Item('tomato', 0.79),
+    Item('zucchini', 0.99),
+]
+
+all_items = [fruits, vegetables]
