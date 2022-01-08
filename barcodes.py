@@ -3,14 +3,14 @@ from typing import List
 
 import barcode
 
-from items import fruits, vegetables
+from catalog import load_catalog
 
 
 def img_filename(i: int):
     return 'barcode-{}'.format(i)
 
 
-def generate_barcodes(name: str, items: List[str], cols: int, rows: int, base_dir: str = '.'):
+def generate_barcodes(name: str, items: List[str], cols: int, rows: int, base_dir: str = './barcodes'):
     index_dir = os.path.join(base_dir, name)
     image_dir = os.path.join(index_dir, 'images')
 
@@ -33,8 +33,9 @@ def generate_barcodes(name: str, items: List[str], cols: int, rows: int, base_di
 
 
 def main():
-    generate_barcodes('fruit', [i.label for i in fruits], rows=10, cols=3)
-    generate_barcodes('vegetables', [i.label for i in vegetables], rows=10, cols=3)
+    catalog = load_catalog('./data')
+    generate_barcodes('fruits', [i.label for i in catalog.get_items_in_dataset('fruits')], rows=10, cols=3)
+    generate_barcodes('vegetables', [i.label for i in catalog.get_items_in_dataset('vegetables')], rows=10, cols=3)
     generate_barcodes('numbers', ['{:08}'.format(n) for n in range(0, 50)], rows=10, cols=5)
 
 

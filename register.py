@@ -1,21 +1,19 @@
-import math
-import random
 from typing import List, Dict
 
 from display import Display
-from items import Item
+from catalog import Catalog, Item
+from prices import random_price
 from state import State
 from transaction import Transaction
 
 
 class CashRegister(object):
-    def __init__(self, display: Display, items: Dict[str, Item] = None):
+    def __init__(self, display: Display, catalog: Catalog = None):
         self.display: Display = display
-        self.item_db: Dict[str, Item] = {} if items is None else items
+        self.catalog: Catalog = catalog if catalog is not None else Catalog()
         self.state: State = State.READY_TO_SCAN
         self.transactions: List[Transaction] = []
         self.curr_txn: Transaction = Transaction()
-        self.rng = random.Random()
 
         display.change_state(self.state)
 
@@ -24,13 +22,14 @@ class CashRegister(object):
         self.display.change_state(s)
 
     def commit_current_transaction(self):
-        if self.curr_txn.raw.lower() in self.item_db:
-            self.curr_txn.label = self.item_db[self.curr_txn.raw.lower()].label
-            self.curr_txn.price = self.item_db[self.curr_txn.raw.lower()].price
+        item = self.catalog.lookup_item_by_code(self.curr_txn.raw.lower())
+        if item is not None:
+            self.curr_txn.label = item.label
+            self.curr_txn.price = item.price
         if self.curr_txn.label is None:
             self.curr_txn.label = self.curr_txn.raw
         if self.curr_txn.price is None:
-            self.curr_txn.price = self.random_price()
+            self.curr_txn.price = random_price()
 
         self.transactions.append(self.curr_txn)
         self.display.add_transaction(self.curr_txn)
@@ -39,6 +38,10 @@ class CashRegister(object):
     def clear_transactions(self):
         self.curr_txn = Transaction()
         self.transactions = []
+
+    def reset(self):
+        self.transactions = []
+        self.curr_txn = Transaction()
 
     def handle_input(self, c, multiline: bool = False):
         if self.state == State.READY_TO_SCAN:
@@ -71,12 +74,8 @@ class CashRegister(object):
             self.change_state(State.SCAN)
 
         else:
-            self.transactions = []
-            self.curr_txn = Transaction()
+            self.reset()
             self.change_state(State.READY_TO_SCAN)
-
-    def random_price(self):
-        return math.floor(self.rng.random() * 20) + 0.99
 
     def get_transactions(self):
         return self.transactions

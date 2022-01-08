@@ -1,21 +1,14 @@
 import curses
-from typing import Dict
 
-import items
-from register import CashRegister, Display
-
-
-def build_item_db():
-    item_db: Dict[str, items.Item] = {}
-    for item_list in items.all_items:
-        for item in item_list:
-            item_db[item.label.lower()] = item
-    return item_db
+from catalog import load_catalog
+from register import CashRegister
+from display import Display
 
 
 def main(stdscr):
+    catalog = load_catalog('./data')
     display = Display(stdscr)
-    register = CashRegister(display, build_item_db())
+    register = CashRegister(display, catalog)
     while True:
         k = stdscr.getkey()
         multiline = False
