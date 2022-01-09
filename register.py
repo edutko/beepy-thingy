@@ -14,6 +14,11 @@ class CashRegister(object):
         self.state: State = State.READY_TO_SCAN
         self.transactions: List[Transaction] = []
         self.curr_txn: Transaction = Transaction()
+        self.new_item: Dict[str, str] = {
+            'code': '',
+            'label': '',
+            'price': '',
+        }
 
         display.change_state(self.state)
 
@@ -39,14 +44,30 @@ class CashRegister(object):
         self.curr_txn = Transaction()
         self.transactions = []
 
+    def commit_new_item(self):
+        self.catalog.add_item(Item(
+            code=self.new_item['code'],
+            label=self.new_item['label'],
+            price=float(self.new_item['price']),
+        ))
+        self.reset()
+
     def reset(self):
         self.transactions = []
         self.curr_txn = Transaction()
+        self.new_item = {
+            'code': '',
+            'label': '',
+            'price': '',
+        }
 
     def handle_input(self, c, multiline: bool = False):
         if self.state == State.READY_TO_SCAN:
-            self.curr_txn.raw += c
-            self.change_state(State.SCAN)
+            if c == '/':
+                self.change_state(State.ADD_ITEM_CODE)
+            else:
+                self.curr_txn.raw += c
+                self.change_state(State.SCAN)
 
         elif self.state == State.SCAN or self.state == State.MANUAL_ENTRY:
             if c == '\n':
@@ -72,6 +93,31 @@ class CashRegister(object):
             self.clear_transactions()
             self.curr_txn.raw += c
             self.change_state(State.SCAN)
+
+        elif self.state == State.ADD_ITEM_CODE:
+            if c != '\r':
+                self.display.echo(c)
+            if c == '\n':
+                self.change_state(State.ADD_ITEM_LABEL)
+            else:
+                self.new_item['code'] += c
+
+        elif self.state == State.ADD_ITEM_LABEL:
+            if c != '\r':
+                self.display.echo(c)
+            if c == '\n':
+                self.change_state(State.ADD_ITEM_PRICE)
+            else:
+                self.new_item['label'] += c
+
+        elif self.state == State.ADD_ITEM_PRICE:
+            if c != '\r':
+                self.display.echo(c)
+            if c == '\n':
+                self.commit_new_item()
+                self.change_state(State.READY_TO_SCAN)
+            else:
+                self.new_item['price'] += c
 
         else:
             self.reset()

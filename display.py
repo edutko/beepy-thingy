@@ -48,7 +48,8 @@ class Display(object):
 
     def ready_to_pay(self):
         self.stdscr.clear()
-        self._addstr_centered('Total: ${:.2f}\nSwipe or insert payment card.'.format(self._total), Color.YELLOW_ON_BLACK)
+        self._addstr_centered('Total: ${:.2f}\nSwipe or insert payment card.'.format(self._total),
+                              Color.YELLOW_ON_BLACK)
         self.stdscr.refresh()
 
     def paid(self):
@@ -57,6 +58,19 @@ class Display(object):
         self.stdscr.refresh()
         curses.napms(3000)
         self.ready_to_scan()
+
+    def add_item_code(self):
+        self.stdscr.clear()
+        self._addstr('Scan an item to add it to the catalog. \nCode: ', Color.MAGENTA_ON_BLACK)
+        self.stdscr.refresh()
+
+    def add_item_label(self):
+        self._addstr('Enter label: ', Color.MAGENTA_ON_BLACK)
+        self.stdscr.refresh()
+
+    def add_item_price(self):
+        self._addstr('Enter price: ', Color.MAGENTA_ON_BLACK)
+        self.stdscr.refresh()
 
     def change_state(self, state: State):
         if state == State.READY_TO_SCAN:
@@ -67,6 +81,18 @@ class Display(object):
             self.ready_to_pay()
         elif state == State.PAID:
             self.paid()
+        elif state == State.ADD_ITEM_CODE:
+            self.add_item_code()
+        elif state == State.ADD_ITEM_LABEL:
+            self.add_item_label()
+        elif state == State.ADD_ITEM_PRICE:
+            self.add_item_price()
+
+    def echo(self, s: str):
+        self._addstr(s)
+
+    def _addstr(self, s: str, color: Color = Color.WHITE_ON_BLACK):
+        self.stdscr.addstr(s, curses.color_pair(color.value))
 
     def _addstr_centered(self, s: str, color: Color = Color.WHITE_ON_BLACK):
         lines = s.split('\n')
