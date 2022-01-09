@@ -29,8 +29,9 @@ class Display(object):
         curses.init_pair(Color.CYAN_ON_BLACK.value, curses.COLOR_CYAN, curses.COLOR_BLACK)
 
     def add_transaction(self, t: Transaction):
-        label = t.label[:20] if len(t.label) > 20 else t.label
-        self.stdscr.addstr('{}{:>7.2f}\n'.format(label.ljust(25), t.price))
+        (_, w) = self.stdscr.getmaxyx()
+        label = t.label[:w - 15] if len(t.label) > w - 15 else t.label
+        self.stdscr.addstr('{}{:>7.2f}\n'.format(label.ljust(w - 10), t.price))
         self.stdscr.refresh()
 
     def set_total(self, total: float):
