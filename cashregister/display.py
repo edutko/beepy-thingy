@@ -1,8 +1,8 @@
 import curses
 from enum import Enum
 
-from state import State
-from transaction import Transaction
+from .state import State
+from .transaction import Transaction
 
 
 class Color(Enum):

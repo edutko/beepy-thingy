@@ -1,8 +1,6 @@
 import curses
 
-from catalog import load_catalog
-from register import CashRegister
-from display import Display
+from cashregister import CashRegister, Display, load_catalog
 
 
 def main(stdscr):

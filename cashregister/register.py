@@ -1,10 +1,10 @@
 from typing import List, Dict
 
-from display import Display
-from catalog import Catalog, Item
-from prices import random_price
-from state import State
-from transaction import Transaction
+from .display import Display
+from .catalog import Catalog, Item
+from .prices import random_price
+from .state import State
+from .transaction import Transaction
 
 
 class CashRegister(object):

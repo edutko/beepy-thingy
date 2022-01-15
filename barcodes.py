@@ -3,7 +3,7 @@ from typing import List
 
 import barcode
 
-from catalog import load_catalog
+from cashregister import load_catalog
 
 
 def img_filename(i: int):

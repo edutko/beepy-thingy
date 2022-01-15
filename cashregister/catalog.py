@@ -1,7 +1,7 @@
 import os.path
 from typing import Dict, List, Optional, Set, Iterable
 
-from prices import random_price
+from .prices import random_price
 
 
 class Item(object):
