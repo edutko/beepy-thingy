@@ -1,6 +1,7 @@
 import os.path
 from typing import Dict, List, Optional, Set, Iterable
 
+from util import read_tsv_file
 from .prices import random_price
 
 
@@ -32,20 +33,13 @@ class Catalog(object):
     def _load_dataset(self, dataset_file: str):
         dataset = os.path.splitext(dataset_file)[0]
         data_file = os.path.join(self._data_dir, dataset_file)
-        with open(data_file, 'r') as f:
-            n = 0
-            for line in f:
-                n += 1
-                cols = line.rstrip().split('\t')
-                if len(cols) < 2 or cols[0].strip() == '':
-                    print('WARNING: invalid record in {}, line {}: "{}"'.format(data_file, n, line))
-                    continue
-                self._add_item(Item(
-                    code=cols[0].strip(),
-                    label=cols[1].strip(),
-                    price=float(cols[2].strip()) if len(cols) > 2 else None,
-                    dataset=dataset
-                ))
+        for cols in read_tsv_file(data_file, nonblank_columns=[0, 1]):
+            self._add_item(Item(
+                code=cols[0].strip(),
+                label=cols[1].strip(),
+                price=float(cols[2].strip()) if len(cols) > 2 else None,
+                dataset=dataset
+            ))
 
     def _append_item_to_dataset(self, dataset: str, item: Item):
         if not os.path.exists(self._data_dir):
