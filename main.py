@@ -1,10 +1,18 @@
-import curses
+import argparse
+import logging
 
-from cashregister import CashRegister, Display, load_catalog
+from cashregister import load_catalog
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--load-only", help="populate the sqlite database and exit", action="store_true")
+
+args = parser.parse_args()
+if not args.load_only:
+    import curses
+    from cashregister import CashRegister, Display
 
 
-def main(stdscr):
-    catalog = load_catalog('./data')
+def main(stdscr, catalog):
     display = Display(stdscr)
     register = CashRegister(display, catalog)
     while True:
@@ -22,8 +30,15 @@ def main(stdscr):
 
 
 if __name__ == '__main__':
-    while True:
-        try:
-            curses.wrapper(main)
-        except KeyboardInterrupt:
-            break
+    args = parser.parse_args()
+    logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s', datefmt='%H:%M:%S', level=logging.INFO)
+    itemdb = load_catalog('./data')
+    try:
+        if not args.load_only:
+            while True:
+                try:
+                    curses.wrapper(main, itemdb)
+                except KeyboardInterrupt:
+                    break
+    finally:
+        itemdb.close()

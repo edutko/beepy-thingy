@@ -45,7 +45,7 @@ class CashRegister(object):
         self.transactions = []
 
     def commit_new_item(self):
-        self.catalog.add_item(Item(
+        self.catalog.add_custom_item(Item(
             code=self.new_item['code'],
             label=self.new_item['label'],
             price=float(self.new_item['price']),
