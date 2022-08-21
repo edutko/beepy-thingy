@@ -1,6 +1,6 @@
 # "Beepy Thingy" Self-checkout Toy
 
-A curses-based "self-checkout" toy for kids for kids who like to "beep things"
+A curses-based "self-checkout" toy for kids who like to "beep things"
 
 This is very much a work in progress, but it's complete enough to provide hours of fun for kids who
 like to play "store" - or who just like to scan barcodes on anything they can find.
