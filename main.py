@@ -1,7 +1,7 @@
 import argparse
 import logging
 
-from cashregister import load_catalog
+from checkout import load_catalog
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--load-only", help="populate the sqlite database and exit", action="store_true")
@@ -9,12 +9,12 @@ parser.add_argument("--load-only", help="populate the sqlite database and exit",
 args = parser.parse_args()
 if not args.load_only:
     import curses
-    from cashregister import CashRegister, Display
+    from checkout import Checkout, Display
 
 
 def main(stdscr, catalog):
     display = Display(stdscr)
-    register = CashRegister(display, catalog)
+    register = Checkout(display, catalog)
     while True:
         k = stdscr.getkey()
         multiline = False

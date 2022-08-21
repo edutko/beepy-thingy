@@ -7,7 +7,7 @@ from .state import State
 from .transaction import Transaction
 
 
-class CashRegister(object):
+class Checkout(object):
     def __init__(self, display: Display, catalog: Catalog = None):
         self.display: Display = display
         self.catalog: Catalog = catalog if catalog is not None else Catalog()

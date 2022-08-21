@@ -1,16 +1,19 @@
-# toy-cash-register
+# "Beepy Thingy" Self-checkout Toy
 
-Curses-based cash register for kids
+A curses-based "self-checkout" toy for kids for kids who like to "beep things"
+
+This is very much a work in progress, but it's complete enough to provide hours of fun for kids who
+like to play "store" - or who just like to scan barcodes on anything they can find.
 
 ## Hardware
 
-The cash register should run on any general-purpose computer. It is designed for small, inexpensive systems like a
-Raspberry Pi. A Raspberry Pi 2 or above should work fine, but very large catalogs will take a long time to load the
-first time the cash register runs.
+The software should run on any general-purpose computer that supports Python 3. It is designed for
+small, inexpensive systems like a Raspberry Pi. A Raspberry Pi 2 or above should work fine, but
+very large catalogs will take a long time to load the first time the self-checkout runs.
 
 Any display will work, but it is optimized for small displays and low resolutions.
 
-It's possible to operate the cash register using a regular keyboard, but peripherals like a barcode scanner, a number
+It's possible to operate the self-checkout using a regular keyboard, but peripherals like a barcode scanner, a number
 pad, and a card reader make it much more fun.
 
 My setup uses the following hardware:
@@ -62,19 +65,19 @@ to connect all the peripherals.
 
 ## Installation
 
-`git clone https://github.com/edutko/toy-cash-register.git`
+`git clone https://github.com/edutko/beepy-thingy.git`
 
 ## Configuration
 
-No configuration is required. By default, the cash register will display the value of a scanned barcode and generate a
+No configuration is required. By default, the self-checkout will display the value of a scanned barcode and generate a
 random price. This is probably sufficient for young kids who just like the fun of "beeping" things with the scanner.
 
-However, the cash register can also read data from tab-delimited (TSV) files containing human-friendly labels and (
+However, the self-checkout can also read data from tab-delimited (TSV) files containing human-friendly labels and (
 optional) prices.
 
 ### Quick Start
 
-Create a `data` folder under `toy-cash-register`. The first time you run the cash register, it will read every `.tsv`
+Create a `data` folder under `beepy-thingy`. The first time you run the self-checkout, it will read every `.tsv`
 file in the `data` folder and use that data to display human-friendly labels and consistent prices (rather than the
 default behavior of displaying the barcode value and generating a random price.)
 
@@ -100,7 +103,7 @@ python3 tools/generate-barcodes.py
 
 ### Advanced
 
-The cash register will read each `.tsv` file in the `data` folder when it starts. (Technically, it only reads files that
+The self-checkout will read each `.tsv` file in the `data` folder when it starts. (Technically, it only reads files that
 are new or have changed since it last read them.) This allows you to easily add labels and prices for any barcodes your
 kid wants to scan.
 
@@ -110,13 +113,13 @@ register. (See
 [data/wic-nc.tsv](./data/wic-nc.tsv).) This is a lot of fun for the kids because they can scan things like cereal boxes
 and see the real name on the display.
 
-Since the cash register uses a sqlite database to index its catalog of items, you can load very large datasets and still
-get good performance. The cash register will take a while to load everything the first time, but unless you modify the
+Since the self-checkout uses a sqlite database to index its catalog of items, you can load very large datasets and still
+get good performance. The self-checkout will take a while to load everything the first time, but unless you modify the
 TSV files, it will start quickly every subsequent time.
 
 ## Use
 
-The cash register itself has no external dependencies, so you can run it as follows:
+The self-checkout itself has no external dependencies, so you can run it as follows:
 
 `python3 main.py`
 

@@ -1,3 +1,3 @@
 from .catalog import load_catalog
-from .register import CashRegister
+from .register import Checkout
 from .display import Display
