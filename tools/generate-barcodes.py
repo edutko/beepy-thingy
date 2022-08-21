@@ -17,13 +17,18 @@ def generate_barcodes(name: str, items: Iterable[List[str]], cols: int = 4, base
         f.write('<html>\n<body>\n<table style="width: 100%; height: 100%; border: 0px;">\n')
         count = 0
         for i in items:
+            b = barcode.get('code128', i[0])
+            label = i[1] if len(i) > 1 else None
+            options = {'write_text': False} if label is not None else None
+            img_filename = b.save(os.path.join(image_dir, 'barcode-{}'.format(count)), options)
+
             if count % cols == 0:
                 f.write('  <tr>\n')
 
-            b = barcode.get('code128', i[0])
-            img_filename = b.save(os.path.join(image_dir, 'barcode-{}'.format(count)))
-            f.write('    <td style="text-align: center; vertical-align: center;"><img src="{}/{}"/></td>\n'
-                    .format(os.path.basename(image_dir), os.path.basename(img_filename)))
+            f.write('    <td style="text-align: center; vertical-align: center;">')
+            f.write('<img src="{}/{}"/>'.format(os.path.basename(image_dir), os.path.basename(img_filename)))
+            f.write('<br/>{}'.format(label) if label is not None else '')
+            f.write('</td>\n')
 
             if count % cols == cols - 1:
                 f.write('  </tr>\n')
